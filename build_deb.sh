@@ -11,6 +11,7 @@ BIN_DIR="$INSTALL_DIR/usr/bin"
 
 # Limpa builds antigos
 rm -rf "$INSTALL_DIR"
+mkdir -p "$INSTALL_DIR"/usr/share/{applications,pixmaps}
 mkdir -p "$BIN_DIR"
 
 # Copia o script Python
@@ -18,8 +19,6 @@ cp "$PWD"/src/trellpy.py "$BIN_DIR/$PKG_NAME"
 chmod +x "$BIN_DIR/$PKG_NAME"
 
 # Diretórios
-mkdir -p "$INSTALL_DIR/usr/share/applications"
-mkdir -p "$INSTALL_DIR/usr/share/pixmaps"
 
 # Copia lançador e ícone
 tee "$INSTALL_DIR"/usr/share/applications/trellpy.desktop >/dev/null <<EOF
@@ -33,11 +32,11 @@ Type=Application
 Categories=Network;Utility;
 EOF
 
-cp resources/trello.png "$INSTALL_DIR/usr/share/pixmaps/"
+cp "$PWD"/resources/trello.png "$INSTALL_DIR"/usr/share/pixmaps/
 
 # Cria o arquivo DEBIAN/control
-mkdir -p "$INSTALL_DIR/DEBIAN"
-cat > "$INSTALL_DIR/DEBIAN/control" <<EOF
+mkdir -p "$INSTALL_DIR"/DEBIAN
+tee "$INSTALL_DIR"/DEBIAN/control >/dev/null <<EOF
 Package: $PKG_NAME
 Version: $VERSION
 Section: utils
